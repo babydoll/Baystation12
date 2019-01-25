@@ -1,14 +1,14 @@
-/obj/item/weapon/gun/projectile/automatic //Hopefully someone will find a way to make these fire in bursts or something. --Superxpdude
+/obj/item/weapon/gun/projectile/automatic
 	name = "prototype SMG"
-	desc = "A protoype lightweight, fast firing gun. Uses 9mm rounds."
-	icon_state = "saber"	//ugly
+	desc = "A protoype lightweight, fast firing submachine gun. Uses 4mm rounds."
+	icon = 'icons/obj/guns/machine_pistols.dmi'
+	icon_state = "prototype"
 	w_class = ITEM_SIZE_NORMAL
-	load_method = SPEEDLOADER //yup. until someone sprites a magazine for it.
-	max_shells = 22
-	caliber = "9mm"
-	origin_tech = list(TECH_COMBAT = 4, TECH_MATERIAL = 2)
+	load_method = MAGAZINE
+	caliber = "4mm"
+	origin_tech = list(TECH_COMBAT = 6, TECH_MATERIAL = 3)
 	slot_flags = SLOT_BELT
-	ammo_type = /obj/item/ammo_casing/c9mm
+	ammo_type = /obj/item/ammo_casing/c4mm
 	multi_aim = 1
 	burst_delay = 2
 	mag_insert_sound = 'sound/weapons/guns/interaction/smg_magin.ogg'
@@ -16,14 +16,22 @@
 
 	//machine pistol, easier to one-hand with
 	firemodes = list(
-		list(mode_name="semiauto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=0, burst_accuracy=null, dispersion=null),
-		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=4,    one_hand_penalty=1, burst_accuracy=list(0,-1,-1),       dispersion=list(0.0, 0.6, 1.0)),
-		list(mode_name="short bursts",   burst=5, fire_delay=null, move_delay=4,    one_hand_penalty=2, burst_accuracy=list(0,-1,-1,-1,-2), dispersion=list(0.6, 0.6, 1.0, 1.0, 1.2)),
+		list(mode_name="semi auto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=0, burst_accuracy=null, dispersion=null),
+		list(mode_name="4-round bursts", burst=4, fire_delay=null, move_delay=4,    one_hand_penalty=1, burst_accuracy=list(0,0,-1,-1),       dispersion=list(0.0, 0.0, 0.5, 0.6)),
+		list(mode_name="long bursts",   burst=8, fire_delay=null, move_delay=4,    one_hand_penalty=2, burst_accuracy=list(0,0,-1,-1,-1,-1,-2,-2), dispersion=list(0.0, 0.0, 0.5, 0.6, 0.8, 1.0, 1.0, 1.2)),
 		)
+
+/obj/item/weapon/gun/projectile/automatic/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "prototype"
+	else
+		icon_state = "prototype-empty"
 
 /obj/item/weapon/gun/projectile/automatic/machine_pistol
 	name = ".45 machine pistol"
 	desc = "The Lumoco Arms MP6 Vesper, A fairly common machine pistol. Sometimes refered to as an 'uzi' by the backwater spacers it is often associated with. Uses .45 rounds."
+	icon = 'icons/obj/guns/machine_pistols.dmi'
 	icon_state = "mpistolen"
 	item_state = "wt550"
 	w_class = ITEM_SIZE_NORMAL
@@ -36,12 +44,12 @@
 	allowed_magazines = /obj/item/ammo_magazine/c45uzi //more damage compared to the wt550, smaller mag size
 
 	firemodes = list(
-		list(mode_name="semiauto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=0, burst_accuracy=null, dispersion=null),
+		list(mode_name="semi auto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=0, burst_accuracy=null, dispersion=null),
 		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=4,    one_hand_penalty=1, burst_accuracy=list(0,-1,-1),       dispersion=list(0.0, 0.6, 1.0)),
 		list(mode_name="short bursts",   burst=5, fire_delay=null, move_delay=4,    one_hand_penalty=2, burst_accuracy=list(0,-1,-1,-1,-2), dispersion=list(0.6, 0.6, 1.0, 1.0, 1.2)),
 		)
 
-/obj/item/weapon/gun/projectile/automatic/mini_uzi/on_update_icon()
+/obj/item/weapon/gun/projectile/automatic/machine_pistol/on_update_icon()
 	..()
 	if(ammo_magazine)
 		icon_state = "mpistolen"
@@ -51,6 +59,7 @@
 /obj/item/weapon/gun/projectile/automatic/c20r
 	name = "10mm submachine gun"
 	desc = "The C-20r is a lightweight and rapid firing SMG, for when you REALLY need someone dead. Uses 10mm rounds. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp."
+	icon = 'icons/obj/guns/c20r.dmi'
 	icon_state = "c20r"
 	item_state = "c20r"
 	w_class = ITEM_SIZE_LARGE
@@ -67,7 +76,7 @@
 
 	//SMG
 	firemodes = list(
-		list(mode_name="semiauto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=2, burst_accuracy=null, dispersion=null),
+		list(mode_name="semi auto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=2, burst_accuracy=null, dispersion=null),
 		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=4,    one_hand_penalty=3, burst_accuracy=list(0,-1,-1),       dispersion=list(0.0, 0.6, 1.0)),
 		list(mode_name="short bursts",   burst=5, fire_delay=null, move_delay=4,    one_hand_penalty=4, burst_accuracy=list(0,-1,-1,-1,-2), dispersion=list(0.6, 0.6, 1.0, 1.0, 1.2)),
 		)
@@ -78,11 +87,11 @@
 		icon_state = "c20r-[round(ammo_magazine.stored_ammo.len,4)]"
 	else
 		icon_state = "c20r"
-	return
 
 /obj/item/weapon/gun/projectile/automatic/sts35
 	name = "assault rifle"
 	desc = "The rugged STS-35 is a durable automatic weapon of a make popular on the frontier worlds. The serial number has been scratched off. Uses 5.56mm rounds."
+	icon = 'icons/obj/guns/assault_rifle.dmi'
 	icon_state = "arifle"
 	item_state = null
 	w_class = ITEM_SIZE_HUGE
@@ -100,19 +109,24 @@
 
 	//Assault rifle, burst fire degrades quicker than SMG, worse one-handing penalty, slightly increased move delay
 	firemodes = list(
-		list(mode_name="semiauto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=4, burst_accuracy=null, dispersion=null),
+		list(mode_name="semi auto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=4, burst_accuracy=null, dispersion=null),
 		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=6,    one_hand_penalty=5, burst_accuracy=list(0,-1,-1),       dispersion=list(0.0, 0.6, 1.0)),
 		list(mode_name="short bursts",   burst=5, fire_delay=null, move_delay=6,    one_hand_penalty=6, burst_accuracy=list(0,-1,-2,-3,-3), dispersion=list(0.6, 1.0, 1.2, 1.2, 1.5)),
 		)
 
 /obj/item/weapon/gun/projectile/automatic/sts35/on_update_icon()
-	icon_state = (ammo_magazine)? "arifle" : "arifle-empty"
-	wielded_item_state = (ammo_magazine)? "arifle-wielded" : "arifle-wielded-empty"
 	..()
+	if(ammo_magazine)
+		icon_state = "arifle"
+		wielded_item_state = "arifle-wielded"
+	else
+		icon_state = "arifle-empty"
+		wielded_item_state = "arifle-wielded-empty"
 
 /obj/item/weapon/gun/projectile/automatic/wt550
 	name = "9mm submachine gun"
 	desc = "The WT-550 Saber is a cheap self-defense weapon, mass-produced by Ward-Takahashi for paramilitary and private use. Uses 9mm rounds."
+	icon = 'icons/obj/guns/wt550.dmi'
 	icon_state = "wt550"
 	item_state = "wt550"
 	w_class = ITEM_SIZE_NORMAL
@@ -126,7 +140,7 @@
 
 	//machine pistol, like SMG but easier to one-hand with
 	firemodes = list(
-		list(mode_name="semiauto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=0, burst_accuracy=null, dispersion=null),
+		list(mode_name="semi auto",       burst=1, fire_delay=0,    move_delay=null, one_hand_penalty=0, burst_accuracy=null, dispersion=null),
 		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=4,    one_hand_penalty=1, burst_accuracy=list(0,-1,-1),       dispersion=list(0.0, 0.6, 1.0)),
 		list(mode_name="short bursts",   burst=5, fire_delay=null, move_delay=4,    one_hand_penalty=2, burst_accuracy=list(0,-1,-1,-1,-2), dispersion=list(0.6, 0.6, 1.0, 1.0, 1.2)),
 		)
@@ -137,11 +151,11 @@
 		icon_state = "wt550-[round(ammo_magazine.stored_ammo.len,4)]"
 	else
 		icon_state = "wt550"
-	return
 
 /obj/item/weapon/gun/projectile/automatic/z8
 	name = "bullpup assault rifle"
 	desc = "The Z8 Bulldog is an older model bullpup carbine, made by the now defunct Zendai Foundries. Uses armor piercing 7.62mm rounds. Makes you feel like a space marine when you hold it."
+	icon = 'icons/obj/guns/z8carbine.dmi'
 	icon_state = "carbine"
 	item_state = "z8carbine"
 	w_class = ITEM_SIZE_HUGE
@@ -162,7 +176,7 @@
 	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
 	//would have one_hand_penalty=4,5 but the added weight of a grenade launcher makes one-handing even harder
 	firemodes = list(
-		list(mode_name="semiauto",       burst=1,    fire_delay=0,    move_delay=null, use_launcher=null, one_hand_penalty=5, burst_accuracy=null, dispersion=null),
+		list(mode_name="semi auto",       burst=1,    fire_delay=0,    move_delay=null, use_launcher=null, one_hand_penalty=5, burst_accuracy=null, dispersion=null),
 		list(mode_name="3-round bursts", burst=3,    fire_delay=null, move_delay=6,    use_launcher=null, one_hand_penalty=6, burst_accuracy=list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0)),
 		list(mode_name="fire grenades",  burst=null, fire_delay=null, move_delay=null, use_launcher=1,    one_hand_penalty=5, burst_accuracy=null, dispersion=null)
 		)
@@ -203,7 +217,6 @@
 			icon_state = "carbine-empty"
 	else
 		icon_state = "carbine"
-	return
 
 /obj/item/weapon/gun/projectile/automatic/z8/examine(mob/user)
 	. = ..()
@@ -215,6 +228,7 @@
 /obj/item/weapon/gun/projectile/automatic/l6_saw
 	name = "light machine gun"
 	desc = "A rather traditionally made L6 SAW with a pleasantly lacquered wooden pistol grip. Has 'Aussec Armoury- 2531' engraved on the reciever." //probably should refluff this
+	icon = 'icons/obj/guns/saw.dmi'
 	icon_state = "l6closed100"
 	item_state = "l6closedmag"
 	w_class = ITEM_SIZE_HUGE
@@ -269,6 +283,7 @@
 		return ..() //once open, behave like normal
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/on_update_icon()
+	..()
 	if(istype(ammo_magazine, /obj/item/ammo_magazine/box))
 		icon_state = "l6[cover_open ? "open" : "closed"][round(ammo_magazine.stored_ammo.len, 25)]"
 		item_state = "l6[cover_open ? "open" : "closed"]"
@@ -278,7 +293,6 @@
 	else
 		icon_state = "l6[cover_open ? "open" : "closed"]-empty"
 		item_state = "l6[cover_open ? "open" : "closed"]-empty"
-	..()
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/load_ammo(var/obj/item/A, mob/user)
 	if(!cover_open)

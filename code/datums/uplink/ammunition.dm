@@ -63,6 +63,11 @@
 	item_cost = 8
 	path = /obj/item/ammo_magazine/a10mm
 
+/datum/uplink_item/item/ammo/p10mm
+	name = "10mm Pistol Magazine"
+	item_cost = 6
+	path = /obj/item/ammo_magazine/p10mm
+
 /datum/uplink_item/item/ammo/a50
 	name = ".50 AE magazine"
 	item_cost = 8
@@ -75,10 +80,24 @@
 
 /datum/uplink_item/item/ammo/c38
 	name = ".38 speedloader"
-	item_cost = 8
 	path = /obj/item/ammo_magazine/c38
 
 /datum/uplink_item/item/ammo/flechette
 	name = "Flechette Magazine"
 	item_cost = 8
 	path = /obj/item/weapon/magnetic_ammo
+
+/datum/uplink_item/item/ammo/c45m_emp
+	name = ".45 EMP Ammo Box (10 rounds)"
+	item_cost = 6
+	path = /obj/item/ammo_magazine/box/emp/c45
+
+/datum/uplink_item/item/ammo/p10mm_emp
+	name = "10mm EMP Ammmo Box (10 rounds)"
+	item_cost = 8
+	path = /obj/item/ammo_magazine/box/emp/a10mm
+
+/datum/uplink_item/item/ammo/c38_emp
+	name = ".38 EMP Ammmo Box (10 rounds)"
+	item_cost = 6
+	path = /obj/item/ammo_magazine/box/emp
